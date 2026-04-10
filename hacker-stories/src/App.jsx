@@ -21,8 +21,7 @@ function App() {
   return (
     <div>
       <h1>My Hacker Stories</h1>
-      <label htmlFor="search">Search: </label>
-      <input type="text" id="search" />
+      <Search />
       <hr />
       <List />
     </div>
@@ -39,6 +38,15 @@ function List(){
         <span> {item.num_comments} </span>
       </ul>
     ))}</li>
+  );
+}
+
+function Search(){
+  return(
+    <div>
+      <label htmlFor="search">Search: </label>
+      <input type="text" id="search" />
+    </div>
   );
 }
 
