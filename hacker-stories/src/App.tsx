@@ -29,12 +29,19 @@ const App=()=>{
       objectID: 1
     }
   ]
+
+  const [searchTerm, setSearchTerm]=useState('');
+
+  const handleChange=(searchTerm:string)=>{
+    setSearchTerm(searchTerm);
+  }
+
   return(
     <div>
       <h1>My Hacker Stories</h1>
-      <Search />
+      <Search searchTerm={searchTerm} handleChange={handleChange} />
       <hr />
-      <List list={stories} />
+      <List list={stories.filter(story=>story.title.toLowerCase().startsWith(searchTerm.toLowerCase()))} />
     </div>
   );
 }
@@ -64,17 +71,17 @@ const List=({list}: ListProps)=>(
     );
   }
 
-const Search=()=>{
-
-  const [searchTerm, setSearchTerm]=useState('');
-  
-  const handleChange=(event: React.ChangeEvent<HTMLInputElement>)=>{
-    setSearchTerm(event.target.value)
+type SearchProps={
+    searchTerm: string;
+    handleChange:(searchTerm: string)=>void;
   }
+
+const Search=({searchTerm, handleChange}:SearchProps)=>{
+  
   return (
     <div>
       <label htmlFor="search">Search: </label>
-      <input type="text" id="search" onChange={handleChange} />
+      <input type="text" id="search" value={searchTerm} onChange={(event)=>handleChange(event.target.value)} />
       <p>Searching for <strong>{searchTerm}</strong></p>
     </div>
   );
