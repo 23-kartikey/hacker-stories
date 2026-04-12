@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
+type Story = {
+  title: string;
+  url: string;
+  author: string;
+  num_comments: number;
+  points: number;
+  objectID: number;
+}
+
 const App=()=>{
 
-  const stories=[
+  const stories : Story[] = [
     {
       title: 'React',
       url: 'https://react.dev/',
@@ -30,14 +39,21 @@ const App=()=>{
   );
 }
 
+type ListProps={
+  list: Story[];
+}
 
-const List=({list})=>(
+const List=({list}: ListProps)=>(
     <ul>{list.map(item=>(
       <Item  key={item.objectID} item={item} />
     ))}</ul>
   );
 
-  const Item=({item})=>{
+  type ItemProps={
+    item: Story;
+  }
+
+  const Item=({item}: ItemProps)=>{
     return(
       <li>
         <span><a href={item.url}>{item.title}</a></span>
@@ -50,7 +66,7 @@ const List=({list})=>(
 
 const Search=()=>{
   
-  const handleChange=(event)=>{
+  const handleChange=(event: React.ChangeEvent<HTMLInputElement>)=>{
     console.log(event);
     console.log(event.target.value)
   }
