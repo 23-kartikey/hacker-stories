@@ -41,7 +41,7 @@ const App=()=>{
       <h1>My Hacker Stories</h1>
       <Search searchTerm={searchTerm} handleChange={handleChange} />
       <hr />
-      <List list={stories.filter(story=>story.title.toLowerCase().startsWith(searchTerm.toLowerCase()))} />
+      <List list={stories.filter(story=>story.title.toLowerCase().includes(searchTerm.toLowerCase()))} />
     </div>
   );
 }
