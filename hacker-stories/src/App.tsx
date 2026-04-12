@@ -32,15 +32,21 @@ const App=()=>{
 
 
 const List=({list})=>(
-    <li>{list.map(item=>(
-      <ul key={item.objectID}>
+    <ul>{list.map(item=>(
+      <Item  key={item.objectID} item={item} />
+    ))}</ul>
+  );
+
+  const Item=({item})=>{
+    return(
+      <li>
         <span><a href={item.url}>{item.title}</a></span>
         <span> {item.author} </span>
         <span> {item.points} </span>
         <span> {item.num_comments} </span>
-      </ul>
-    ))}</li>
-  );
+      </li>
+    );
+  }
 
 const Search=()=>{
   
