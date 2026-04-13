@@ -51,22 +51,26 @@ type ListProps={
 }
 
 const List=({list}: ListProps)=>(
-    <ul>{list.map(item=>(
-      <Item  key={item.objectID} item={item} />
+    <ul>{list.map(({objectID, ...item})=>(
+      <Item  key={objectID} {...item} />
     ))}</ul>
   );
 
   type ItemProps={
-    item: Story;
+    title: string;
+    url:string;
+    author: string;
+    points: number;
+    num_comments: number;
   }
 
-  const Item=({item}: ItemProps)=>{
+  const Item=({title, url, author, points, num_comments}: ItemProps)=>{
     return(
       <li>
-        <span><a href={item.url}>{item.title}</a></span>
-        <span> {item.author} </span>
-        <span> {item.points} </span>
-        <span> {item.num_comments} </span>
+        <span><a href={url}>{title}</a></span>
+        <span> {author} </span>
+        <span> {points} </span>
+        <span> {num_comments} </span>
       </li>
     );
   }
