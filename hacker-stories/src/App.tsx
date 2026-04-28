@@ -42,14 +42,14 @@ const App=()=>{
 
   const [searchTerm, setSearchTerm]=useStorageItem('search', 'React');
 
-  const handleSearch=(term: string)=>{
-    setSearchTerm(term);
+  const handleSearch=(event: React.ChangeEvent<HTMLInputElement>)=>{
+    setSearchTerm(event.target.value);
   }
 
   return(
     <div>
       <h1>My Hacker Stories</h1>
-      <InputWithLabel id="search" label="Search" value={searchTerm} type="text" handleInput={handleSearch} />
+      <InputWithLabel id="search" value={searchTerm} type="text" handleInput={handleSearch}><strong>Search: </strong></InputWithLabel>
       <p>Searching for: {searchTerm}</p>
       <hr />
       <List list={stories.filter(story=>story.title.toLowerCase().includes(searchTerm.toLowerCase()))} />
@@ -86,21 +86,21 @@ const List=({list}: ListProps)=>(
     );
   }
 
-type SearchProps={
+type InputWithLabelProps={
     id:string,
-    label: string,
     value: string,
-    type: string,
-    handleInput:(searchTerm: string)=>void;
+    type?: string,
+    handleInput: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    children: React.ReactNode;
   }
 
-const InputWithLabel=({ id, label, value, type="text", handleInput}:SearchProps)=>{
+const InputWithLabel=({ id, value, type="text", handleInput, children}: InputWithLabelProps)=>{
   
   return (
     <>
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>{children}</label>
       &nbsp;
-      <input type={type} id="search" value={value} onChange={(event)=>handleInput(event.target.value)} />
+      <input type={type} id={id} value={value} onChange={handleInput} />
     </>
   );
 }
