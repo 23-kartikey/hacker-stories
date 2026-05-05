@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 type Story = {
   title: string;
@@ -11,7 +11,7 @@ type Story = {
 
 const useStorageItem=(key: string, initialState: string)=>{
   const [value, setValue]=useState(localStorage.getItem(key)||initialState);
-  
+
   useEffect(()=>{
     localStorage.setItem(key, value);
   },[key, value]);
@@ -46,13 +46,15 @@ const App=()=>{
     setSearchTerm(event.target.value);
   }
 
+
   return(
     <div>
       <h1>My Hacker Stories</h1>
-      <InputWithLabel id="search" value={searchTerm} type="text" handleInput={handleSearch}><strong>Search: </strong></InputWithLabel>
+      <InputWithLabel isFocused id="search" value={searchTerm} type="text" handleInput={handleSearch}><strong>Search: </strong></InputWithLabel>
       <p>Searching for: {searchTerm}</p>
       <hr />
       <List list={stories.filter(story=>story.title.toLowerCase().includes(searchTerm.toLowerCase()))} />
+
     </div>
   );
 }
@@ -87,6 +89,7 @@ const List=({list}: ListProps)=>(
   }
 
 type InputWithLabelProps={
+    isFocused: boolean,
     id:string,
     value: string,
     type?: string,
@@ -94,13 +97,14 @@ type InputWithLabelProps={
     children: React.ReactNode;
   }
 
-const InputWithLabel=({ id, value, type="text", handleInput, children}: InputWithLabelProps)=>{
+const InputWithLabel=({ isFocused, id, value, type="text", handleInput, children}: InputWithLabelProps)=>{
+  let name="";
   
   return (
     <>
       <label htmlFor={id}>{children}</label>
       &nbsp;
-      <input type={type} id={id} value={value} onChange={handleInput} />
+      <input autoFocus={isFocused} type={type} id={id} value={value} onChange={handleInput} />
     </>
   );
 }
