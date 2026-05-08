@@ -21,7 +21,7 @@ const useStorageItem=(key: string, initialState: string)=>{
 
 const App=()=>{
 
-  const stories : Story[] = [
+  const [stories, setStories] =useState([
     {
       title: 'React',
       url: 'https://react.dev/',
@@ -38,12 +38,16 @@ const App=()=>{
       points: 5,
       objectID: 1
     }
-  ]
+  ]);
 
   const [searchTerm, setSearchTerm]=useStorageItem('search', 'React');
 
   const handleSearch=(event: React.ChangeEvent<HTMLInputElement>)=>{
     setSearchTerm(event.target.value);
+  }
+
+  const removeItem=(objectID: number)=>{
+    setStories(prev=>prev.filter(story=>story.objectID!==objectID));
   }
 
 
@@ -53,7 +57,7 @@ const App=()=>{
       <InputWithLabel isFocused id="search" value={searchTerm} type="text" handleInput={handleSearch}><strong>Search: </strong></InputWithLabel>
       <p>Searching for: {searchTerm}</p>
       <hr />
-      <List list={stories.filter(story=>story.title.toLowerCase().includes(searchTerm.toLowerCase()))} />
+      <List list={stories.filter(story=>story.title.toLowerCase().includes(searchTerm.toLowerCase()))}  removeItem={removeItem} />
 
     </div>
   );
@@ -61,11 +65,12 @@ const App=()=>{
 
 type ListProps={
   list: Story[];
+  removeItem: ((id: number)=>void);
 }
 
-const List=({list}: ListProps)=>(
-    <ul>{list.map(({objectID, ...item})=>(
-      <Item  key={objectID} {...item} />
+const List=({list, removeItem}: ListProps)=>(
+    <ul>{list.map((item)=>(
+      <Item  key={item.objectID} {...item} removeItem={removeItem} />
     ))}</ul>
   );
 
@@ -75,15 +80,18 @@ const List=({list}: ListProps)=>(
     author: string;
     points: number;
     num_comments: number;
+    objectID: number;
+    removeItem: ((id: number)=>void)
   }
 
-  const Item=({title, url, author, points, num_comments}: ItemProps)=>{
+  const Item=({title, url, author, points, num_comments, objectID, removeItem}: ItemProps)=>{
     return(
       <li>
         <span><a href={url}>{title}</a></span>
         <span> {author} </span>
         <span> {points} </span>
         <span> {num_comments} </span>
+        <button onClick={()=>removeItem(objectID)} type="button">Remove</button>
       </li>
     );
   }
