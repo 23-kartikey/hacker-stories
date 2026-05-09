@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-
+import './App.css';
 type Story = {
   title: string;
   url: string;
@@ -69,8 +69,8 @@ type ListProps={
 }
 
 const List=({list, removeItem}: ListProps)=>(
-    <ul>{list.map((item)=>(
-      <Item  key={item.objectID} {...item} removeItem={removeItem} />
+    <ul className="list">{list.map((item)=>(
+      <Item key={item.objectID} {...item} removeItem={removeItem} />
     ))}</ul>
   );
 
@@ -86,13 +86,15 @@ const List=({list, removeItem}: ListProps)=>(
 
   const Item=({title, url, author, points, num_comments, objectID, removeItem}: ItemProps)=>{
     return(
+      <div className="list-item">
       <li>
         <span><a href={url}>{title}</a></span>
         <span> {author} </span>
         <span> {points} </span>
         <span> {num_comments} </span>
-        <button onClick={()=>removeItem(objectID)} type="button">Remove</button>
       </li>
+      <button className="button-85" onClick={()=>removeItem(objectID)} type="button">Remove</button>
+      </div>
     );
   }
 
@@ -112,7 +114,7 @@ const InputWithLabel=({ isFocused, id, value, type="text", handleInput, children
     <>
       <label htmlFor={id}>{children}</label>
       &nbsp;
-      <input autoFocus={isFocused} type={type} id={id} value={value} onChange={handleInput} />
+      <input className="input-search" autoFocus={isFocused} type={type} id={id} value={value} onChange={handleInput} />
     </>
   );
 }
