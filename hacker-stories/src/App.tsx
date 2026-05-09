@@ -93,7 +93,7 @@ const List=({list, removeItem}: ListProps)=>(
         <span> {points} </span>
         <span> {num_comments} </span>
       </li>
-      <button className="button-85" onClick={()=>removeItem(objectID)} type="button">Remove</button>
+      <button className="button-33" onClick={()=>removeItem(objectID)} type="button">Remove</button>
       </div>
     );
   }
